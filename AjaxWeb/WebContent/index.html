@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>홈입니다.</title>
+</head>
+<body>
+	<h1>반갑습니다!</h1>
+	<div id ="show"></div>
+	<script>
+	let xhtp = new XMLHttpRequest();
+	xhtp.open('get','home');
+	xhtp.send();
+	xhtp.onload = showContent;
+	
+	
+	
+	
+	
+	function showContent(){
+			console.log(xhtp.responseXML);
+			let doc = xhtp.responseXML;
+			let result = doc.getElementsByTagName('record');
+			 let table = document.createElement('table');
+	         table.setAttribute('border', '1');
+	         table.append(createHeader(result[0])); //title 정보
+	         for(let i =0 ; i < result.length; i++){
+	             let tr = document.createElement('tr');
+	             for(let j = 0; j < result[i].childNodes.length; j++){
+	             let td = document.createElement('td');
+	             let str = result[i].childNodes[j].childNodes[0].nodeValue;
+	             let textNode = document.createTextNode(str);
+	             td.appendChild(textNode);
+	             tr.appendChild(td); 
+	             }
+	             table.appendChild(tr);
+	         }
+	         document.getElementById('show').appendChild(table);
+		}
+		function createHeader(title){
+			let tr = document.createElement('tr');
+		for(let i =0; i < title.childNodes.length; i++) {
+			let td = document.createElement('th');
+			let str = title.childNodes[i].nodeName.toUpperCase().replace('_','');
+			let textNode = document.createTextNode(str);
+			td.appendChild(textNode);
+			tr.appendChild(td);
+		}
+		return tr;
+	} 
+		
+	</script>
+</body>
+</html>
