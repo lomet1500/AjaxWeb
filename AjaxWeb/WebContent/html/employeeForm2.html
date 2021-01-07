@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>html/employeeForm2.html</title>
+	<script src="showPage2.js"></script>
+</head>
+
+<body>
+	<table>
+	<input type ='hidden' id='eid' name = 'eid' value="999">
+		<tr>
+			<td>firstName</td>
+			<td><input type='text' id='fName' name='fName' value='kildong'></td>
+		<tr>
+		<tr>
+			<td>lastName</td>
+			<td><input type='text' id='lName' name='lName' value='hong'></td>
+		<tr>
+		<tr>
+			<td>email</td>
+			<td><input type='text' id='email' name='email' value='HONG'></td>
+		<tr>
+		<tr>
+			<td>phoneNumber</td>
+			<td><input type='text' id='phoneNumber' name='phoneNumber' value='00000000000'></td>
+		<tr>
+		<tr>
+			<td>jobId</td>
+			<td><input type='text' id='jobId' name='jobId' value='IT_PROG'></td>
+		<tr>
+		<tr align='center'>
+			<td><button id='btn' onclick='saveBtn()'>저장</button></td>
+		</tr>
+	
+	</table>
+	<div id="show"></div>
+	<script>
+		function saveBtn() {
+			console.log(this);
+			let fName = document.getElementById('fName').value;
+			let lName = document.getElementById('lName').value;
+			let email = document.getElementById('email').value;
+			let phoneNumber = document.getElementById('phoneNumber').value;
+			let jobId = document.getElementById('jobId').value;
+			
+			let url = '../addEmp?fName=' + fName + '&lName=' + lName + '&email=' + email + '&phoneNumber=' + phoneNumber+ '&jobId=' + jobId;
+			let saveReq = new XMLHttpRequest();
+			saveReq.open('get', url);
+			saveReq.send();
+			saveReq.onload = function () {
+				console.log(saveReq.responseXML);
+				let doc = saveReq.responseXML;
+				let result = doc.getElementsByTagName('result');
+				console.log(result[0].childNodes);
+				let trTag = document.createElement('tr');
+				for (let i = 0; i < result[0].childNodes.length; i++) {
+					let tdTag = document.createElement('td');
+					let val = result[0].childNodes[i].firstChild.nodeValue;
+					let tNode = document.createTextNode(val);
+					tdTag.appendChild(tNode);
+					trTag.appendChild(tdTag);
+				}
+				
+				document.getElementById('tbl').appendChild(addbtn(trTag, delbtn));
+				document.getElementById('tbl').appendChild(trTag);
+			}
+		}
+		function delbtn(){
+			console.log(this);
+			this.parentNode.parentNode.remove();
+		}
+		function addbtn(trTag, callBackFunc){
+		let btn = document.createElement('button');
+		btn.innerHTML = '삭제';
+		btn.onclick = callBackFunc;
+		let td = document.createElement('td0');
+		td.appendChild(btn);
+		trTag.appendChild(td);
+		
+		return trTag;
+		
+			trTag.onmouseover = function(){
+			trTag.style.backgroundColor = "green";
+			
+			
+			trTag.onmouseout = function(){
+			trTag.style.background = "none";
+			}
+		}	
+		}
+	
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', 'home');
+		xhtp.send();
+		xhtp.onload = showPage;
+	</script>
+</body>
+
+</html>
