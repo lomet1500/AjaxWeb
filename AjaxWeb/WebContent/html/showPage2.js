@@ -52,6 +52,8 @@ function contentRow(result){
 	let trTags = [];
 	for(let j=0; j<result.length; j++){
 		let trTag = document.createElement('tr');
+		let empId = result[j].childNodes[0].firstChild.nodeValue;  //emp input 수정
+		trTag.setAttribute('id','emp_' + empId); // emp input 수정
 	for(let i = 0; i < result[0].childNodes.length; i++){
 		let tdTag = document.createElement('td');
 		let textNode = document.createTextNode(result[j].childNodes[i].firstChild.nodeValue);
@@ -65,7 +67,12 @@ function contentRow(result){
 		trTag.onmouseout = function(){
 		trTag.style.background = "none";
 		
-	}
+		trTag.onclick = function(){
+			console.log('click');
+		document.getElementById('empId').value = this.childNodes[1].childNodes[0].valueNode;
+			 
+			}	
+	} 
 	}	
 	}	
 	

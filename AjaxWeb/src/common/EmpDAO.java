@@ -87,6 +87,63 @@ public class EmpDAO {
 		}
 		return newVo;
 	}
+	
+	public EmployeeVO modfEmp(EmployeeVO vo) {
+		String sql1 ="select employees_seq.nextval from dual";
+		String sql2 ="select * from emp_temp where employee_id=?";
+		String sql = "insert into emp_temp"
+				+ "(employee_id,first_name,last_name,"
+				+ "email,phone_number,hire_date,job_id,salary)\r\n"
+				+ "values(?, ?, ?, ?, ?, sysdate, ?, ?)";
+		int r = 0;
+		String newSeq = null;
+		EmployeeVO newVo = new EmployeeVO();
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql1);
+			ResultSet rs = psmt.executeQuery();
+			if(rs.next()) {
+				newSeq = rs.getString(1);
+			}
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, newSeq);
+			psmt.setString(2, vo.getFirstName());
+			psmt.setString(3, vo.getLastName());
+			psmt.setString(4, vo.getEmail());
+			psmt.setString(5, vo.getPhoneNumber());
+			psmt.setString(6, vo.getJobId());
+			psmt.setInt(7, vo.getSalary());
+			r =psmt.executeUpdate();
+			System.out.println(r +"건 입력됨.");
+			
+			psmt = conn.prepareStatement(sql2);
+			psmt.setString(1, newSeq);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				newVo.setEmail(rs.getString("email"));
+				newVo.setEmployeeId(rs.getInt("employee_id"));
+				newVo.setFirstName(rs.getString("first_name"));
+				newVo.setLastName(rs.getString("last_name"));
+				newVo.setHireDate(rs.getString("hire_date"));
+				newVo.setJobId(rs.getString("job_id"));
+				newVo.setPhoneNumber(rs.getString("phone_number"));
+				newVo.setSalary(rs.getInt("salary"));
+			}
+			
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+			
+		}finally {
+			try {
+			conn.close();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		}
+		return newVo;
+	}
+	
 	public boolean deleteEmp(EmployeeVO vo) {
 		String sql = "delete from emp_temp where employee_id = ?";
 		int r = 0;
@@ -101,6 +158,8 @@ public class EmpDAO {
 		}
 		return r == 1 ? true:false;
 	}
+	
+	
 	
 	public List<EmployeeVO> getEmpList() {
 		String sql = "select * from emp_temp order by 1 desc";
