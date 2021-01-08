@@ -89,45 +89,29 @@ public class EmpDAO {
 	}
 	
 	public EmployeeVO modfEmp(EmployeeVO vo) {
-		String sql1 ="select employees_seq.nextval from dual";
-		String sql2 ="select * from emp_temp where employee_id=?";
-		String sql = "insert into emp_temp"
-				+ "(employee_id,first_name,last_name,"
-				+ "email,phone_number,hire_date,job_id,salary)\r\n"
-				+ "values(?, ?, ?, ?, ?, sysdate, ?, ?)";
+		String sql = "update emp_temp"
+				+ " set first_name =? ,last_name=?,"
+				+ "email=?,phone_number=?,job_id=?,salary=?"
+				+ "where employee_id = ?";
 		int r = 0;
-		String newSeq = null;
-		EmployeeVO newVo = new EmployeeVO();
+		
+		EmployeeVO newNo = new EmployeeVO();
 		try {
-			PreparedStatement psmt = conn.prepareStatement(sql1);
-			ResultSet rs = psmt.executeQuery();
-			if(rs.next()) {
-				newSeq = rs.getString(1);
-			}
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, newSeq);
-			psmt.setString(2, vo.getFirstName());
-			psmt.setString(3, vo.getLastName());
-			psmt.setString(4, vo.getEmail());
-			psmt.setString(5, vo.getPhoneNumber());
-			psmt.setString(6, vo.getJobId());
-			psmt.setInt(7, vo.getSalary());
+			psmt.setString(1, vo.getFirstName());
+			psmt.setString(2, vo.getLastName());
+			psmt.setString(3, vo.getEmail());
+			psmt.setString(4, vo.getPhoneNumber());
+			psmt.setString(5, vo.getJobId());
+			psmt.setInt(6, vo.getSalary());
+			psmt.setInt(7, vo.getEmployeeId());
 			r =psmt.executeUpdate();
 			System.out.println(r +"건 입력됨.");
 			
-			psmt = conn.prepareStatement(sql2);
-			psmt.setString(1, newSeq);
-			rs = psmt.executeQuery();
-			if(rs.next()) {
-				newVo.setEmail(rs.getString("email"));
-				newVo.setEmployeeId(rs.getInt("employee_id"));
-				newVo.setFirstName(rs.getString("first_name"));
-				newVo.setLastName(rs.getString("last_name"));
-				newVo.setHireDate(rs.getString("hire_date"));
-				newVo.setJobId(rs.getString("job_id"));
-				newVo.setPhoneNumber(rs.getString("phone_number"));
-				newVo.setSalary(rs.getInt("salary"));
-			}
+	
+			
 			
 		} catch (SQLException e) {
 		
@@ -141,7 +125,7 @@ public class EmpDAO {
 			e.printStackTrace();
 		}
 		}
-		return newVo;
+		return newNo;
 	}
 	
 	public boolean deleteEmp(EmployeeVO vo) {

@@ -68,9 +68,13 @@ function contentRow(result){
 		trTag.style.background = "none";
 		
 		trTag.onclick = function(){
-			console.log('click');
-		document.getElementById('empId').value = this.childNodes[1].childNodes[0].valueNode;
-			 
+			
+		    document.getElementById('empId').value = this.childNodes[0].childNodes[0].nodeValue;
+			document.getElementById('fName').value = this.childNodes[1].childNodes[0].nodeValue;
+			document.getElementById('lName').value = this.childNodes[2].childNodes[0].nodeValue;
+			document.getElementById('email').value = this.childNodes[3].childNodes[0].nodeValue;
+			document.getElementById('phoneNumber').value = this.childNodes[4].childNodes[0].nodeValue;
+			document.getElementById('jobId').value = this.childNodes[6].childNodes[0].nodeValue;
 			}	
 	} 
 	}	

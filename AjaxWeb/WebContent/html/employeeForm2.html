@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>html/employeeForm2.html</title>
-	<script src="showPage2.js"></script>
+	<script src="../js/showPage2.js"></script>
 </head>
 
 <body>
@@ -68,39 +68,33 @@
 					tdTag.appendChild(tNode);
 					trTag.appendChild(tdTag);
 				}
-				
 				document.getElementById('tbl').appendChild(addbtn(trTag, delbtn));
 				document.getElementById('tbl').appendChild(trTag);
 			}
+			
 		}
 		
 		function modfBtn(){
 			console.log(this);
-			let empId = documetn.getElemnetById('empId').value;
 			let fName = document.getElementById('fName').value;
 			let lName = document.getElementById('lName').value;
 			let email = document.getElementById('email').value;
 			let phoneNumber = document.getElementById('phoneNumber').value;
 			let jobId = document.getElementById('jobId').value;
-		
-			let url = '../modfEmp?empId=' +empId + '&fName='+ fName + '&lName=' + lName + '&email=' + email + '&phoneNumber=' + phoneNumber+ '&jobId=' + jobId;
-			let saveReq = new XMLHttpRequest();
-			saveReq.open('get', url);
-			saveReq.send();
-			saveReq.onload = function () {
-				console.log(saveReq.responseXML);
-				let doc = saveReq.responseXML;
-				let result = doc.getElementsByTagName('result');
-				console.log(result[0].childNodes);
-				let trTag = document.createElement('tr');
-				for (let i = 0; i < result[0].childNodes.length; i++) {
-					let tdTag = document.createElement('td');
-					let val = result[0].childNodes[i].firstChild.nodeValue;
-					let tNode = document.createTextNode(val);
-					tdTag.appendChild(tNode);
-					trTag.appendChild(tdTag);
-				}
+			let empId = document.getElementById('empId').value;
 			
+			let url = 'fName='+ fName + '&lName=' + lName + '&email=' + email + '&phoneNumber=' + phoneNumber+ '&jobId=' + jobId + '&empId=' + empId ;
+			let modfReq = new XMLHttpRequest();
+			modfReq.open('post', '../modify');
+			modfReq.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			modfReq.send(url);
+			modfReq.onload = function () {
+				let doc = modfReq.responseXML;
+				let result = doc.getElementsByTagName('result');
+				let emp = result[0].childNodes[0].childNodes[0].nodeValue;
+				
+			}	
+				
 			}
 		
 		function delbtn(){
@@ -127,12 +121,18 @@
 			}
 			
 			trTag.onclick = function(){
-				console.log('click');
-			document.getElementById('empId').value = this.childNodes[0].childNodes[0].valueNode;
-			 
+			
+			document.getElementById('empId').value = this.childNodes[0].childNodes[0].nodeValue;
+			document.getElementById('fName').value = this.childNodes[1].childNodes[0].nodeValue;
+			document.getElementById('lName').value = this.childNodes[2].childNodes[0].nodeValue;
+			document.getElementById('email').value = this.childNodes[3].childNodes[0].nodeValue;
+			document.getElementById('phoneNumber').value = this.childNodes[4].childNodes[0].nodeValue;
+			document.getElementById('jobId').value = this.childNodes[6].childNodes[0].nodeValue;
+			
 			}	
 		}
-		}
+		
+		let xhtp = new XMLHttpRequest();
 		xhtp.open('get', 'home');
 		xhtp.send();
 		xhtp.onload = showPage;

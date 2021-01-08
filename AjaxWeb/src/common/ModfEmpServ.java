@@ -38,7 +38,7 @@ public class ModfEmpServ extends HttpServlet {
 		
 		
 		EmpDAO dao = new EmpDAO();
-		EmployeeVO v = dao.insertEmp(vo);
+		EmployeeVO v = dao.modfEmp(vo);
 		String result = "<result>";
 		result += "<empId>" + v.getEmployeeId() + "</empId>";
 		result += "<fName>" + v.getFirstName() + "</fName>";

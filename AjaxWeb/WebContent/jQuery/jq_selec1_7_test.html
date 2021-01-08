@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jq_selec1_7_test.html</title>
+<script src = '../js/jquery-3.5.1.min.js'></script>
+<script>
+//인접관계 선택자
+$(function(){
+	$("#list_1").parent()
+	.css("border","2px dashed #f00");
+});
+</script>
+</head>
+<body>
+ 	<h1>인접 관계 선택자</h1>
+ 	<ul id="wrap">
+ 	<li>리스트1
+ 	<ul>
+ 	<li id ="list_1">리스트1-1</li>
+ 	<li>리스트1-2</li>
+ 	</li>
+ 	</ul>
+ 	<li>리스트2</li>
+ 	<li>리스트3</li>
+ 	</ul>
+</body>
+</html>

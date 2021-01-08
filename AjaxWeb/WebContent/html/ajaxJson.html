@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>html/ajaxJson.html</title>
+
+</head>
+<body>
+	<script>
+let json = {
+	"name":"John",
+	"age":30,
+	"cars" : ["Ford","BNW","Fiat"]
+}
+	//console.log(JSON.parse(json)); //VM34:1 Uncaught SyntaxError: Unexpected token o in JSON at position 1 at JSON.parse (<anonymous>) : json data오류
+	console.log(json.cars[0]);
+	
+	let xhtp = new XMLHttpRequest();
+	xhtp.open('get','../empListJson');
+	xhtp.send();
+	xhtp.onload = function () {
+		let data = xhtp.response;
+		let obj = JSON.parse(data);
+		/* console.log(JSON.parse(data)); */
+		let ulTag = document.createElement('ul');
+		for(let i = 0; i < obj.length; i++){
+			let liTag = document.createElement('li');
+			let val = obj[i].id + obj[i].firstName + obj[i].lastName + obj[i].email + obj[i].salary;
+			let tNode = document.createTextNode(val);
+			liTag.appendChild(tNode);
+			ulTag.appendChild(liTag);
+		}
+		document.getElementsByTagName('body')[0].appendChild(ulTag); //('body')[0] : <body> tag를 읽는다.
+	}
+	</script>
+</body>
+</html>
