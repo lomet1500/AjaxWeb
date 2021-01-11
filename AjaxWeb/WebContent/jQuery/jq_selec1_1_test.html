@@ -5,16 +5,52 @@
 <title>jq_selec1_1_test.html </title>
 <script src ='../js/jquery-3.5.1.min.js'></script>
 <script>
-//전체 선택자 
-$(function(){
-	$("*").css("border", "1px solid blue");
-});
+	let persons = [];
+	persons.push('Hong');
+	persons.push('Hwang');
+	persons.push('Park');
+
+	$(document).ready(function(){
+		let ulTag = $('<ul/>').attr('id', 'main');
+		$.each(persons, function(a, b){
+			console.log(a,b);
+			ulTag.append($('<li/>').html(b));
+		})
+
+		console.log(ulTag);
+
+		$('body').append(ulTag);
+
+		let table = $('<table border="1" />').attr('id','main');
+		$.each(persons, function(a,b){
+			let tr = $('<tr/>');
+				$(tr).mouseover(function(){
+					console.log($(this));
+					$(this).css('background-color', 'yellow');
+				});
+
+			let td = $('<td/>');
+			td.html(b);
+			tr.append(td);
+			table.append(tr);
+			
+			let button = $('<button/>').html('ok');
+				$(button).click(function(){
+					$(this).parent().parent().remove();
+				});
+			let td1 = $('<td/>');
+			td1.append(button);
+			tr.append(td1);
+			table.append(tr);
+				// $(button).click(function(){
+				// 	alert('warning');
+				// })	
+			
+		})
+		$('body').append(table);
+	});
 </script>
 </head>
-<body>
- <!-- 전체선택자 -->
-	<h1>제이쿼리</h1>
-	<h2>선택자</h2>
-	<h3>직접 선택자</h3>
+<body>	
 </body>
 </html>
