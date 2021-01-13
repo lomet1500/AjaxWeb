@@ -21,7 +21,7 @@ $(function(){
     //     else
     //         $('td > input').prop('checked', false);
     // })
-        $('div').on('click','#all_check',function(){
+        $('body').on('click','#all_check',function(){
             if ($('#all_check').is(":checked"))
             $('td > input').prop('checked', true);
             else
