@@ -109,10 +109,7 @@ public class EmpDAO {
 			psmt.setInt(7, vo.getEmployeeId());
 			r =psmt.executeUpdate();
 			System.out.println(r +"건 입력됨.");
-			
-	
-			
-			
+		
 		} catch (SQLException e) {
 		
 			e.printStackTrace();
